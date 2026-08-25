@@ -117,21 +117,10 @@
 
   /* Payment panel (shown after enquiry submit) */
   #payPanel{display:none;background:#fff;border-radius:18px;padding:28px 24px;color:var(--kas-ink);box-shadow:0 16px 44px rgba(0,0,0,.28)}
-  #payPanel h3{font-size:19px;margin-bottom:4px}
-  #payPanel .paid-to{font-size:13px;color:var(--ink-soft);margin-bottom:14px}
-  .order{background:#F0FAF7;border:1px solid #CBE9E0;border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:14.5px}
-  .order b{color:var(--kas-green-dark)}
-  .bank{border:1.5px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:14px}
-  .bk-head{background:var(--kas-ink);color:#fff;padding:10px 14px;font-size:13px;font-weight:700;letter-spacing:.04em}
-  .bank table{width:100%;border-collapse:collapse;font-size:13.5px}
-  .bank td{padding:9px 14px;border-top:1px solid var(--line);vertical-align:top}
-  .bank td:first-child{color:var(--ink-soft);width:42%;font-weight:600}
-  .bank td b{font-size:14.5px;letter-spacing:.03em}
-  .paynote,#payPanel .paynote{font-size:12.5px;color:var(--ink-soft);background:#FFF8E8;border:1px solid #F2E3B5;border-radius:10px;padding:10px 12px;margin-bottom:14px;line-height:1.55}
-  .lead form .privacy,#payPanel .privacy{color:#8b9aa0}
+  #payPanel h3{font-size:22px;margin-bottom:8px}
+  #payPanel .paid-to{font-size:14.5px;color:var(--ink-soft);margin-bottom:16px;line-height:1.6}
   .call-alt{font-size:14px;margin-bottom:16px;padding:10px 12px;background:#F4F8F7;border-radius:10px}
   .call-alt a{color:var(--kas-green-dark);font-weight:700;text-decoration:none}
-  #payPanel .divider{border:none;border-top:1px dashed var(--line);margin:16px 0}
 
   /* Footer */
   footer{background:#0E1F26;color:#B9C7CD;padding:34px 0 90px;font-size:13px}
@@ -304,35 +293,9 @@ src="https://www.facebook.com/tr?id=1849567146412127&ev=PageView&noscript=1"
     </form>
 
     <div id="payPanel" aria-live="polite">
-      <h3>Thank you! Complete your purchase</h3>
-      <p class="paid-to">Your enquiry is registered. To get your license quickly, pay by UPI or bank transfer below.</p>
-      <div class="order">
-        <b>Kaspersky Plus</b> &mdash; 1 Device / 1 Year<br>
-        Amount payable: <b>&#8377;343</b> <span style="font-size:12.5px">(&#8377;291 + 18% GST)</span>
-      </div>
-      <div class="bank">
-        <div class="bk-head">OR BANK TRANSFER &mdash; NEFT / IMPS</div>
-        <table role="presentation">
-          <tr><td>Account Name</td><td><b>eCaps Computers India Pvt Ltd</b></td></tr>
-          <tr><td>Account Number</td><td><b>155005000592</b></td></tr>
-          <tr><td>IFSC Code</td><td><b>ICIC0001550</b></td></tr>
-          <tr><td>MICR Code</td><td>641229011</td></tr>
-          <tr><td>Bank &amp; Branch</td><td>ICICI Bank, Saibaba Colony Branch,<br>No: 54, Bharathi Park, 7th Cross Road,<br>Saibaba Colony, Coimbatore &ndash; 641101, Tamil Nadu</td></tr>
-        </table>
-      </div>
-      <div class="call-alt">Not comfortable paying online? No problem &mdash; call our sales executive <b>Mrs.&nbsp;Vigneswari</b> at <a href="tel:+919942922551">+91&nbsp;99429&nbsp;22551</a> and she'll do the needful.<br>
-      <span style="font-size:12.5px">Or reach our office: <a href="tel:04224383338">0422-4383338</a> / <a href="tel:04222205100">0422-2205100</a> (10&nbsp;AM &ndash; 6.30&nbsp;PM, except Sundays &amp; holidays)</span></div>
-      <p class="paynote"><b>Please note:</b> your Kaspersky Plus license will be sent only to the email ID you provided in the form &mdash; it is a digital license delivered by email. There is no physical box or CD.</p>
-      <hr class="divider">
-      <form id="payForm" novalidate>
-        <div class="field">
-          <label for="utr">Made the payment? Enter your UTR / Transaction Reference No. <span class="req">*</span></label>
-          <input type="text" id="utr" name="utr" required placeholder="e.g. UTR / IMPS / UPI reference number">
-        </div>
-        <button type="submit" class="submit" id="payBtn">I Have Made the Payment</button>
-        <div class="form-msg" id="payMsg" role="status"></div>
-        <p class="privacy">On confirmation, our team verifies the payment and emails your license, with a copy of this confirmation to you.</p>
-      </form>
+      <h3>You're All Set! 🎉</h3>
+      <p class="paid-to">Your enquiry has been received successfully. Our Kaspersky security expert will reach out to you shortly with your best offer price.</p>
+      <div class="call-alt">Need it sooner? Call us directly at <a href="tel:+919942922551">+91&nbsp;99429&nbsp;22551</a> for immediate assistance.</div>
     </div>
   </div>
 </section>
@@ -413,6 +376,9 @@ src="https://www.facebook.com/tr?id=1849567146412127&ev=PageView&noscript=1"
       amount: "343"
     }).then(function (r) {
       if (!r.ok) throw new Error("Bad response");
+      if (typeof fbq === "function") {
+        fbq('track', 'Lead', { content_name: 'Kaspersky Plus 1 Device / 1 Year', value: 343, currency: 'INR' });
+      }
       showPaymentPanel();
     }).catch(function () {
       showErr("Something went wrong. Please try again, or WhatsApp us directly at +91 99429 22551.");
@@ -421,46 +387,6 @@ src="https://www.facebook.com/tr?id=1849567146412127&ev=PageView&noscript=1"
     });
 
     function showErr(t) { msg.textContent = t; msg.className = "form-msg err"; btn.disabled = false; btn.textContent = "Get My Offer Price"; return false; }
-  });
-
-  document.getElementById("payForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var msg = document.getElementById("payMsg");
-    var btn = document.getElementById("payBtn");
-    msg.className = "form-msg";
-
-    var utr = document.getElementById("utr").value.trim();
-    if (utr.length < 6) {
-      msg.textContent = "Please enter the UTR / transaction reference number from your bank or UPI app.";
-      msg.className = "form-msg err";
-      return;
-    }
-
-    btn.disabled = true; btn.textContent = "Confirming...";
-
-    post({
-      type: "payment",
-      name: LEAD ? LEAD.name : "",
-      company: "Consumer - Kaspersky Plus",
-      email: LEAD ? LEAD.email : "",
-      mobile: LEAD ? LEAD.mobile1 : "",
-      region: "Instagram Campaign",
-      message: "PAYMENT CONFIRMED by customer. UTR/Ref: " + utr + ". Product: Plus 1 device/1 yr @ Rs.343 incl GST." + (LEAD && LEAD.mobile2 ? " Alternate mobile: " + LEAD.mobile2 : ""),
-      mobile2: LEAD ? LEAD.mobile2 : "",
-      utr: utr,
-      product: "Kaspersky Plus 1 Device / 1 Year",
-      amount: "343"
-    }).then(function (r) {
-      if (!r.ok) throw new Error("Bad response");
-      msg.innerHTML = "Payment confirmation received. Our team will verify it and email your Kaspersky Plus license to <b>" + (LEAD ? LEAD.email : "your email ID") + "</b>. A confirmation copy is being sent to your email.";
-      msg.className = "form-msg ok";
-      document.getElementById("payForm").querySelector(".field").style.display = "none";
-      btn.style.display = "none";
-    }).catch(function () {
-      msg.textContent = "Could not submit the confirmation. Please try again, or WhatsApp your payment reference to +91 99429 22551.";
-      msg.className = "form-msg err";
-      btn.disabled = false; btn.textContent = "I Have Made the Payment";
-    });
   });
 </script>
 </body>
